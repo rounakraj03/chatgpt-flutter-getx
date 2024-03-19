@@ -24,4 +24,7 @@ class OnboardingController extends GetxController {
     Get.bottomSheet(Text(joke));
     return joke;
   }
+
+
+  
 }
