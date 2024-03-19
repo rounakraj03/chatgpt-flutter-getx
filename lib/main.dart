@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_chatgpt_getx/core/storage.dart';
 import 'package:flutter_chatgpt_getx/presentation/chat/chat_screen.dart';
-import 'package:flutter_chatgpt_getx/presentation/onboarding/onboarding_controller.dart';
 import 'package:flutter_chatgpt_getx/presentation/onboarding/onboarding_screen.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +23,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      darkTheme: ThemeData.dark(),
       home: FutureBuilder(
         future: Get.find<AppStorage>().getBool('login'),
         builder: (context, snapshot) {
@@ -38,7 +37,8 @@ class Home extends StatelessWidget {
             }
           }
         },
-      )
+      ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

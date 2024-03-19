@@ -28,12 +28,24 @@ class _ChatScreenState extends State<ChatScreen> {
         title: const Text('Chat'),
         leading: IconButton(
           icon: const Icon(Icons.power_settings_new_outlined),
-          onPressed: () {},
+          onPressed: () {
+            chatController.logout();
+          },
         ),
         actions: [
           IconButton(
+              onPressed: () {
+                Get.changeThemeMode(
+                    Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
+              },
+              icon: Get.isDarkMode
+                  ? const Icon(Icons.sunny)
+                  : const Icon(Icons.dark_mode_outlined)),
+          IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () {
+              chatController.newChat();
+            },
           )
         ],
       ),
@@ -42,11 +54,14 @@ class _ChatScreenState extends State<ChatScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: ListView.separated(
-                itemBuilder: (context, index) =>
-                    Text(chatController.chatMessages[index].values.first),
-                separatorBuilder: (context, index) => const SizedBox(height: 5),
-                itemCount: chatController.chatMessages.length),
+            child: Obx(
+              () => ListView.separated(
+                  itemBuilder: (context, index) =>
+                      Text(chatController.chatMessages[index].content),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 5),
+                  itemCount: chatController.chatMessages.length),
+            ),
           ),
           Row(
             children: [
@@ -61,11 +76,8 @@ class _ChatScreenState extends State<ChatScreen> {
               IconButton(
                 icon: const Icon(Icons.send),
                 onPressed: () {
-                  if(messageController.text.isNotEmpty) {
-                    chatController.setNewMessage({
-                      'role': 'user',
-                      'content': messageController.text
-                    });
+                  if (messageController.text.isNotEmpty) {
+                    chatController.enterButtonFunction(messageController.text);
                     messageController.clear();
                   }
                 },
